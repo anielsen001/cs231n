@@ -1,0 +1,9 @@
+# emacs related files
+*~
+\#*\#
+
+# archive files
+*.zip
+*.tb2
+*.tgz
+*.tar.*
