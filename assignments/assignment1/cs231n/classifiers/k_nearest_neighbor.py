@@ -73,7 +73,7 @@ class KNearestNeighbor(object):
         # training point, and store the result in dists[i, j]. You should   #
         # not use a loop over dimension.                                    #
         #####################################################################
-        pass
+        dists[i,j] = np.sum( ( X[ i ].flatten() - self.X_train[ j ].flatten() )**2 )
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -155,7 +155,16 @@ class KNearestNeighbor(object):
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
-      pass
+      # dists.shape = [num_under_test, num_in_training]
+      # sort along axis = 0 to sort for each item in test
+      # _knn = np.argsort(dists,axis=0) this is already in a loop over object under test
+      _knn_idx = np.argsort( dists[i,:] ) # sorting indices
+      # find location of top k indices in array 
+      _knn_top_k = np.where( _knn_idx >= dists.shape[1] - k ) 
+      # iterate of _knn_top_k to populate closest_y
+      for _k in _knn_top_k:
+        closest_y.append(self.y_train[_k])
+      
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
@@ -163,7 +172,13 @@ class KNearestNeighbor(object):
       # Store this label in y_pred[i]. Break ties by choosing the smaller     #
       # label.                                                                #
       #########################################################################
-      pass
+      # the classes are specified by an integer list, so closest_y
+      # should contain a series of integers, createa a histogram and find
+      # the peak there are 10 classes
+      _h,_tmp = np.histogram(np.asarray(closest_y),np.arange(11)-0.5)
+      #print(_h)
+      _max_h_idx = np.argmax(_h)
+      y_pred[i] = _max_h_idx
       #########################################################################
       #                           END OF YOUR CODE                            # 
       #########################################################################
