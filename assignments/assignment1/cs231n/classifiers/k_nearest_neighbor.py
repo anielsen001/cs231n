@@ -73,7 +73,7 @@ class KNearestNeighbor(object):
         # training point, and store the result in dists[i, j]. You should   #
         # not use a loop over dimension.                                    #
         #####################################################################
-        dists[i,j] = np.sum( ( X[ i ].flatten() - self.X_train[ j ].flatten() )**2 )
+        dists[i,j] = np.sum( ( X[ i,: ].flatten() - self.X_train[ j,: ].flatten() )**2 )
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -95,7 +95,8 @@ class KNearestNeighbor(object):
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      pass
+      dists[i,:] = np.sum( ( self.X_train - X[i,:] )**2, axis = 1 )
+      
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
@@ -123,7 +124,12 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+    # tried np.subtract.outer(X_train,X_test) but ran into MemoryError
+    x_train_2_sum = np.sum( self.X_train**2 , axis = 1 )
+    x_2_sum = np.sum ( X**2 , axis = 1 )
+    cross_term = 2 * np.dot( X , np.transpose( self.X_train ) )
+    dists = x_train_2_sum[np.newaxis,:] - cross_term + x_2_sum[:,np.newaxis]
+    
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -159,8 +165,10 @@ class KNearestNeighbor(object):
       # sort along axis = 0 to sort for each item in test
       # _knn = np.argsort(dists,axis=0) this is already in a loop over object under test
       _knn_idx = np.argsort( dists[i,:] ) # sorting indices
+      # argsort sorts smallest to greatest so we need the first k elements
       # find location of top k indices in array 
-      _knn_top_k = np.where( _knn_idx >= dists.shape[1] - k ) 
+      #_knn_top_k = np.where( _knn_idx >= dists.shape[1] - k )
+      _knn_top_k = _knn_idx[0:k]
       # iterate of _knn_top_k to populate closest_y
       for _k in _knn_top_k:
         closest_y.append(self.y_train[_k])
