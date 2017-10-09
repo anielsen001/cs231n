@@ -1,6 +1,6 @@
 These are my working files for the cs231n course from Stanford. 
 
-* Main github.io page
+* Main page
 
 [[http://cs231n.github.io/]]
 
