@@ -1,4 +1,23 @@
+#!/usr/bin/env ipython
+#
 # this is the python code lifted from knn.ipynb
+
+# this must be at teh beginning of the file
+from __future__ import print_function
+
+#
+# must use ipython
+# to run ipython magic functions in this script
+# see: https://stackoverflow.com/questions/10361206/how-to-run-an-ipython-magic-from-a-script-or-timing-a-python-script
+from IPython import get_ipython
+ipython = get_ipython()
+
+# these don't work inside the python script:
+# %load_ext autoreload
+# %autoreload 2
+# replace with below:
+ipython.magic('load_ext autoreload')
+ipython.magic('autoreload 2')
 
 # Run some setup code for this notebook.
 
@@ -7,10 +26,8 @@ import numpy as np
 from cs231n.data_utils import load_CIFAR10
 import matplotlib.pyplot as plt
 
-from __future__ import print_function
 
-%load_ext autoreload
-%autoreload 2
+
 
 # Load the raw CIFAR-10 data.
 cifar10_dir = 'cs231n/datasets/cifar-10-batches-py'
