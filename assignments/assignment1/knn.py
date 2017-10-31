@@ -162,7 +162,8 @@ y_train_folds = []
 # y_train_folds[i] is the label vector for the points in X_train_folds[i].     #
 # Hint: Look up the numpy array_split function.                                #
 ################################################################################
-pass
+X_train_folds = np.array_split( X_train , num_folds )
+y_train_folds = np.array_split( y_train , num_folds )
 ################################################################################
 #                                 END OF YOUR CODE                             #
 ################################################################################
