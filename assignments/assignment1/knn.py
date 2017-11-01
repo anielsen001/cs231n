@@ -25,6 +25,7 @@ import random
 import numpy as np
 from cs231n.data_utils import load_CIFAR10
 import matplotlib.pyplot as plt
+plt.ion() # plots should be interactive
 
 
 
@@ -200,7 +201,52 @@ k_to_accuracies = {}
 # last fold as a validation set. Store the accuracies for all fold and all     #
 # values of k in the k_to_accuracies dictionary.                               #
 ################################################################################
-pass
+
+# create a classier
+classifier = KNearestNeighbor()
+
+for k in k_choices:
+
+    # list to hold accuracy of each folded test
+    _accuracy = list()
+
+    # loop over number of folds
+    for i_test_fold in range(num_folds):
+    #for _x_train, y_train in X_train_folds, y_train_folds:
+
+        # the test fold is i_test_fold the others are for training
+
+
+        #np.asarray(X_train_folds[0:4]).reshape(4000,3072)
+        # it happens in our case that each fold is 1000
+        # In [39]: [ _f.shape[0] for _f in X_train_folds ] 
+        # Out[39]: [1000, 1000, 1000, 1000, 1000]
+        i_train_folds = np.setdiff1d(range(num_folds), i_test_fold)
+        fold_shape = X_train_folds[0].shape
+        #_x_train = np.zeros( (num_folds-1) * fold_shape[0], 3072 )
+        _x_train = np.concatenate( [ X_train_folds[_i] for _i in i_train_folds ]  )
+        #_x_train = np.asarray(\
+        #        X_train_folds[ np.array(i_train_folds) ] ).reshape( (num_folds-1) * fold_shape[0],
+        #                                           3072)
+        #_y_train = np.asarray(\
+        #    y_train_folds[i_train_folds]).flatten()
+        _y_train = np.concatenate( [ y_train_folds[_i] for _i in i_train_folds ] ) 
+        
+        # train the classifer based on the fold
+        classifier.train(_x_train, _y_train)
+
+        # compute the distances using the no loops method
+        dists = classifier.compute_distances_no_loops( X_train_folds[i_test_fold] )
+
+        # calc test predictions
+        y_test_pred = classifier.predict_labels(dists, k = k)
+
+        # compute accuracy
+        num_correct = np.sum( y_test_pred == y_train_folds[i_test_fold] )
+        _accuracy.append( float(num_correct) / num_test )
+
+    k_to_accuracies[k] = _accuracy
+        
 ################################################################################
 #                                 END OF YOUR CODE                             #
 ################################################################################
@@ -228,7 +274,7 @@ plt.show()
 # Based on the cross-validation results above, choose the best value for k,   
 # retrain the classifier using all the training data, and test it on the test
 # data. You should be able to get above 28% accuracy on the test data.
-best_k = 1
+best_k = 10
 
 classifier = KNearestNeighbor()
 classifier.train(X_train, y_train)
