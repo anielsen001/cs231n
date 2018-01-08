@@ -16,6 +16,8 @@ These are my working files for the cs231n course from Stanford.
 
 [[http://cs231n.github.io/linear-classify/#svm]]
 
+http://cs231n.github.io/optimization-1/
+
 ** TODO Q3: Implement a Softmax classifier
 
 http://cs231n.github.io/linear-classify/#softmax
