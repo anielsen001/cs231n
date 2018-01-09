@@ -181,6 +181,8 @@ from cs231n.gradient_check import grad_check_sparse
 f = lambda w: svm_loss_naive(w, X_dev, y_dev, 0.0)[0]
 grad_numerical = grad_check_sparse(f, W, grad)
 
+print(' ') # add a blank line as separator
+
 # do the gradient check once again with regularization turned on
 # you didn't forget the regularization gradient did you?
 loss, grad = svm_loss_naive(W, X_dev, y_dev, 5e1)
@@ -188,3 +190,9 @@ f = lambda w: svm_loss_naive(w, X_dev, y_dev, 5e1)[0]
 grad_numerical = grad_check_sparse(f, W, grad)
 
 #####################################################################
+
+#####################################################################
+
+# Inline Question 1:
+# It is possible that once in a while a dimension in the gradcheck will not match exactly. What could such a discrepancy be caused by? Is it a reason for concern? What is a simple example in one dimension where a gradient check could fail? Hint: the SVM loss function is not strictly speaking differentiable
+# Your Answer: fill this in.
