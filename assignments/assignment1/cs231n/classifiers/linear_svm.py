@@ -43,25 +43,29 @@ def svm_loss_naive(W, X, y, reg):
       
       # gradient addition, referencing here:
       # http://cs231n.github.io/optimization-1/#gradcompute
-      if not ( j==y[i] ):
-        dW[:,j] = X[i]
+      # this term should only happen if the margin is met
+      #if not ( j==y[i] ):
+      #  dW[:,j] = X[i]
       
       margin = scores[j] - correct_class_score + 1 # note delta = 1
       if margin > 0:
         loss += margin
         num_met_margin += 1
+        dW[:,j] += X[i]
 
     # add into dW - outside of loop over classes, after counting
-    dW[:,y[i]] = - num_met_margin * X[i]
+    dW[:,y[i]] += - num_met_margin * X[i]
 
     
         
   # Right now the loss is a sum over all training examples, but we want it
   # to be an average instead so we divide by num_train.
   loss /= num_train
+  dW /= num_train
 
   # Add regularization to the loss.
-  loss += reg * np.sum(W * W)
+  loss += 0.5 * reg * np.sum(W * W) # <--- an 0.5 was missing here in my original code
+  dW += reg * W
 
   #############################################################################
   # TODO:                                                                     #
