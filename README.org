@@ -4,6 +4,9 @@ These are my working files for the cs231n course from Stanford.
 
 [[http://cs231n.github.io/]]
 
+This is a github repo that you can work from
+https://github.com/hnarayanan/CS231n
+
 * Assignment 1
 
 [[http://cs231n.github.io/assignments2017/assignment1/]]
@@ -25,6 +28,12 @@ http://cs231n.github.io/linear-classify/#softmax
 ** TODO Q4: Two-Layer Neural Network 
 ** TODO Q5: Higher Level Representations: Image Features
 ** TODO Q6: Cool Bonus: Do something extra! 
+
+
+** Solutions:
+
+https://github.com/bruceoutdoors/CS231n
+https://github.com/dengfy/cs231n/
 
 * Assignment 2
 
